@@ -18,4 +18,18 @@ export class UserProviders {
         const possibleUser = this.users.find(user => user.email === email);
         return possibleUser !== undefined;
     }
+
+    async updateUser(id: string, updateData: Partial<UserEntity>) {
+        const user = this.users.find(user => user.id === id);
+        if (!user) {
+            throw new Error('User not found');
+        }
+        Object.entries(updateData).forEach(([key, value]) => {
+            if (key === 'id') {
+                return;
+            }
+            user[key] = value;
+        })
+        return user;
+    }
 }
