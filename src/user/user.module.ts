@@ -1,7 +1,7 @@
 import {Module} from "@nestjs/common";
 import {UserController} from "./user.controller";
 import {UserProviders} from "./user.providers";
-import {EmailUniqueValidator} from "./validation/email_uniqued";
+import {EmailUniqueValidator} from "./validation/email_unique";
 
 @Module({
     controllers: [UserController],
