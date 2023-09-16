@@ -9,12 +9,11 @@ export class UserController {
 
     @Post()
     async addUser(@Body() user: CreateUserDto) {
-        const newUser = this.userProvider.addUser(user);
-        return { user: newUser };
+        return this.userProvider.addUser(user);
     }
 
     @Get()
-    getUsers(): string[] {
+    async listUsuarios() {
         return this.userProvider.getUsers();
     }
 

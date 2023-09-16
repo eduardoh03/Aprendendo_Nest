@@ -3,16 +3,14 @@ import {CreateUserDto} from "./dto/createUser.dto";
 
 @Injectable()
 export class UserProviders {
-    private users: string[] = [];
+    private users = [];
 
     addUser(user: CreateUserDto): any {
-        this.users.push(user.name);
+        this.users.push(user);
         return user;
     }
 
-    getUsers(): string[] {
+    async getUsers() {
         return this.users;
     }
-
-
 }
