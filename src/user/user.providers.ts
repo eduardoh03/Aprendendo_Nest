@@ -1,15 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import {Injectable} from '@nestjs/common';
 
 @Injectable()
 export class UserProviders {
-    private users: string[] = [];
+    private users = [];
 
-    getUsers(): string[] {
+    async addUser(user) {
+        this.users.push(user);
+        return user;
+    }
+
+    async getUsers() {
         return this.users;
     }
 
-    addUser(user: string): any {
-        this.users.push(user);
-        return user; // Retorna o usuário criado
+    async findPossibleUser(email: string) {
+        const possibleUser = this.users.find(user => user.email === email);
+        return possibleUser !== undefined;
     }
 }
