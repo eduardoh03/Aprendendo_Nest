@@ -8,12 +8,12 @@ export class ProdutoController {
     constructor(private readonly produtoRepository: ProdutoProviders) {}
 
     @Post()
-    criaNovo(@Body() dadosProduto: CriaProdutoDTO) {
-        return this.produtoRepository.salva(dadosProduto);
+    createNewProduct(@Body() dadosProduto: CriaProdutoDTO) {
+        return this.produtoRepository.save(dadosProduto);
     }
 
     @Get()
-    listaTodos() {
-        return this.produtoRepository.listaTodos();
+    listAllProduct() {
+        return this.produtoRepository.listAll();
     }
 }

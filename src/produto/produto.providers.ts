@@ -4,11 +4,11 @@ import { Injectable } from '@nestjs/common';
 export class ProdutoProviders {
     private produtos = [];
 
-    listaTodos() {
+    listAll() {
         return this.produtos;
     }
 
-    salva(dadosProduto) {
+    save(dadosProduto) {
         this.produtos.push(dadosProduto);
         return dadosProduto;
     }
