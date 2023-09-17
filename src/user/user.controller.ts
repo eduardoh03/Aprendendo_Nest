@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post, Put} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Patch, Post, Put} from '@nestjs/common';
 import {UserProviders} from "./user.providers";
 import {CreateUserDto} from "./dto/createUser.dto";
 import {UserEntity} from "./user.entity";
@@ -33,10 +33,48 @@ export class UserController {
 
     @Put('/:id')
     async updateUser(@Param('id') id: string, @Body() newData: UpdateUserDto) {
-        const userUpdated = await this.userProvider.updateUser(id, newData);
-        return {
-            user: userUpdated,
-            message: 'User updated successfully'
-        };
+        try {
+            const userUpdated = await this.userProvider.updateUser(id, newData);
+            return {
+                user: userUpdated,
+                message: 'User updated successfully'
+            };
+        } catch (error) {
+            // Captura a exceção e retorna o erro no payload da resposta
+            return {
+                error: error.message
+            };
+        }
+    }
+
+    @Patch('/:id')
+    async partialUpdateUser(@Param('id') id: string, @Body() newData: Partial<UserEntity>) {
+        try {
+            const userUpdated = await this.userProvider.partialUpdateUser(id, newData);
+            return {
+                user: userUpdated,
+                message: 'User updated successfully'
+            };
+        } catch (error) {
+
+            return {
+                error: error.message
+            };
+        }
+    }
+
+    @Delete('/:id')
+    async deleteUser(@Param('id') id: string) {
+        try {
+            await this.userProvider.deleteUser(id);
+            return {
+                message: 'User deleted successfully'
+            };
+        } catch (error) {
+            // Captura a exceção e retorna o erro no payload da resposta
+            return {
+                error: error.message
+            };
+        }
     }
 }

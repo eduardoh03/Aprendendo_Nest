@@ -1,5 +1,6 @@
 import {Injectable} from '@nestjs/common';
 import {UserEntity} from "./user.entity";
+import {PartialUpdateUserDto, UpdateUserDto} from "./dto/updateUserDto";
 
 @Injectable()
 export class UserProviders {
@@ -19,17 +20,36 @@ export class UserProviders {
         return possibleUser !== undefined;
     }
 
-    async updateUser(id: string, updateData: Partial<UserEntity>) {
+    private findById(id: string) {
         const user = this.users.find(user => user.id === id);
         if (!user) {
             throw new Error('User not found');
         }
+        return user;
+    }
+
+    async partialUpdateUser(id: string, updateData: Partial<PartialUpdateUserDto>) {
+        const user = this.findById(id);
         Object.entries(updateData).forEach(([key, value]) => {
             if (key === 'id') {
                 return;
             }
             user[key] = value;
         })
+        return user;
+    }
+
+    async updateUser(id: string, updateData: UpdateUserDto) {
+        const user = this.findById(id);
+        user.name = updateData.name;
+        user.email = updateData.email;
+        user.password = updateData.password;
+        return user;
+    }
+
+    async deleteUser(id: string) {
+        const user = this.findById(id);
+        this.users = this.users.filter(user => user.id !== id);
         return user;
     }
 }
